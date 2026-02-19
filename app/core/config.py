@@ -6,12 +6,13 @@ class Settings(BaseSettings):
     APP_PORT: int = 8000
     APP_API_KEY: str = "later"
     RETENTION_POINTS: int = 10000
+    MIN_POINTS_READY: int = 300
     DEFAULT_WINDOW: int = 3600
     CACHE_TTL_SECONDS: int = 2
     LOG_LEVEL: str = "INFO"
     
     # Forex specific
-    SYMBOLS: List[str] = [
+    ALLOWED_SYMBOLS: List[str] = [
         "EURUSD", "GBPUSD", "USDJPY", "AUDUSD", 
         "USDCAD", "USDCHF", "USDINR", "EURINR"
     ]
