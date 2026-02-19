@@ -1,23 +1,56 @@
-What RAMS is: Forex Risk Analytics Microservice
+# RAMS: Forex Risk Analytics Microservice
 
-Symbols (asset list): EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD, USDCHF, USDINR, EURINR
+RAMS is a high-performance microservice designed for real-time risk analytics in Forex trading. It ingests 1-second OHLC bars and calculates key risk metrics for a defined set of currency pairs.
 
-Data format: 1-second OHLC bars (recommended)
+## Architecture
 
-Endpoints:
+- **Microservice**: Built with Python (FastAPI).
+- **Data Frequency**: 1-second OHLC bars.
+- **Storage**: In-memory ring buffers for high-speed calculation (backed by TimescaleDB/Redis in future phases).
 
-POST /ingest
+## Setup
 
-GET /metrics/{symbol}
+1.  **Clone the repository**:
+    ```bash
+    git clone <repo-url>
+    cd RAMS
+    ```
 
-GET /metrics/portfolio
+2.  **Create a virtual environment**:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
-GET /health, GET /ready
+3.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-GET /metrics (Prometheus)
+4.  **Environment Configuration**:
+    Copy `.env.template` to `.env` (or use the provided `.env`):
+    ```bash
+    cp .env.template .env
+    ```
+    Ensure `SYMBOLS` and `BAR_FREQUENCY` are set correctly.
 
-Example payload for /ingest
+## Usage
 
-Example response keys for /metrics/{symbol}
+### Run Locally
+```bash
+uvicorn app.main:app --reload
+```
 
-How to run locally + Docker + compose (Add in Future)
+### API Endpoints
+
+-   `GET /health`: Check service health and environment.
+-   `GET /ready`: Check if service is ready to accept traffic.
+-   `POST /ingest`: Ingest 1s OHLC bars.
+-   `GET /metrics/{symbol}`: Get risk metrics for a specific symbol.
+-   `GET /metrics/portfolio`: Get aggregated portfolio risk metrics.
+-   `GET /metrics`: Prometheus metrics scraper.
+
+## Contributing
+
+-   Follow PEP 8 style guide.
+-   Ensure all tests pass before submitting PRs.
